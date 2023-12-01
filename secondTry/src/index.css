@@ -13,6 +13,12 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.edge {
+  image-rendering: crisp-edges; /* Стандартное свойство */
+  height: 10px;
+  width: 10px;
+ }
+
 a {
   font-weight: 500;
   color: #646cff;
