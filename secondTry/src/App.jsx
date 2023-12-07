@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
-import data from './mockData' 
+import data from './mockData.js' 
 import './App.css'
 
 
@@ -11,28 +11,30 @@ function App() {
 
   useEffect(() => {console.log(defaultData)}, [defaultData])
 
+  function chekIsOk(isReady){
+    if (isReady == true) {checked}
+  }
 
   return ( 
     <>
-      
-      <button className='bluetext'>Начать новый список</button>
-<input type = "text" placeholder='Что нужно делать'></input> <button className='bluetext'> Enter </button> <br/>
-<img src = {'imgs/x.png'} className='edge'/><input type = "checkbox" className='checkbox margin-top'></input>1. 1<br/>
-<img src = {'imgs/x.png'} className='edge'/><input type = "checkbox" className='checkbox'></input>2. 2<br/>
-<img src = {'imgs/x.png'} className='edge'/><input type = "checkbox" className='checkbox'></input>3. 3<br/>
-<img src = {'imgs/x.png'} className='edge'/><input type = "checkbox" className='checkbox'></input>4. 4<br/>
-<img src = {'imgs/x.png'} className='edge'/><input type = "checkbox" className='checkbox'></input>5. 5<br/>
-<img src = {'imgs/x.png'} className='edge'/><input type = "checkbox" className='checkbox'></input>6. 6<br/>
-<img src = {'imgs/x.png'} className='edge'/><input type = "checkbox" className='checkbox'></input>7. 7<br/>
-<img src = {'imgs/x.png'} className='edge'/><input type = "checkbox" className='checkbox'></input>8. 8<br/>
-<img src = {'imgs/x.png'} className='edge'/><input type = "checkbox" className='checkbox'></input>9. Дело 1<br/>
-<img src = {'imgs/x.png'} className='edge'/><input type = "checkbox" className='checkbox'></input>10. Дело 2<br/>
-<img src = {'imgs/x.png'} className='edge'/><input type = "checkbox" className='checkbox'></input>11. Дело 3<br/>
-<img src = {'imgs/x.png'} className='edge'/><input type = "checkbox" className='checkbox'></input>12. Дело 4<br/>
-<button className='bluetext'>Удалить выполненные</button>
+      <button className='bluetext default'>Начать новый список</button><br/>
+
+      <input type = "text" placeholder='Что нужно делать'></input> <button className='bluetext default'> Enter </button>
+      <div>
+        {defaultData.map((task, index) => {
+        return (
+        <div className='oneline'><button className='buttonX'><img src = {'imgs/x.png'} className='edge'/></button>
+        <input type = "checkbox" className='checkbox' checked={task.isReady}/>
+        <div className='oneline' key={index}><div className='oneline'>{1+index}.&nbsp;</div>
+        <div className='oneline'> {task.name}</div>      
+        </div>
+        </div>)
+        })}
+      </div>
+
+      <button className='bluetext default'>Удалить выполненные</button>
 
     </>
-  )
-}
+)}
 
 export default App
