@@ -10,16 +10,22 @@ function App() {
   const [defaultData, setDefaultData] = useState(data);
 
   useEffect(() => {console.log(defaultData)}, [defaultData])
+  const emptyListPhase = "  Список пуст... ";
 
-  function chekIsOk(isReady){
-    if (isReady == true) {checked}
+  function setNewList(){
+  setDefaultData([]);
+  console.log('Список очищен...');}
+
+  function emptyList(){
+  if(defaultData.length <1) {return emptyListPhase}
   }
 
   return ( 
     <>
-      <button className='bluetext default'>Начать новый список</button><br/>
+      <button className='bluetext default' onClick={()=>{setNewList()}}>Начать новый список</button><br/>
 
       <input type = "text" placeholder='Что нужно делать'></input> <button className='bluetext default'> Enter </button>
+      <div className='bluetext'>{emptyList()}</div>
       <div>
         {defaultData.map((task, index) => {
         return (
