@@ -10,8 +10,10 @@ function App() {
   const [defaultData, setDefaultData] = useState(data);
   const [text,setText] = useState('')
 
+
   useEffect(() => {console.log(defaultData)}, [defaultData])
   const emptyListPhase = "  Список пуст... ";
+  let deleteData;
 
   function setNewList(){
   setDefaultData([]);
@@ -24,12 +26,12 @@ function App() {
   function addNewTask(){
       setDefaultData([
         ...defaultData,
-        {name:text, isReady:false}])
+        {name:text, isReady:false}]);
   }
 
-  /*function deleteTask(){
-   const withDelList = [defaultData.splice(document.getElementById(""),1)]
-  };//не понимаю, как определить индекс элемента, с которого удалять начинатью почему-то элементы удаляются по кнопке enter*/
+  function deleteTask(id){
+  return(setDefaultData([...defaultData.filter((elem, index) => index !== id)]))
+  };
   
   return ( 
     <>
@@ -44,7 +46,7 @@ function App() {
       <div>
         {defaultData.map((task, index) => {
         return (
-        <div className='oneline'><button className='buttonX'><img src = {'imgs/x.png'} className='edge'/></button>
+        <div className='oneline'><button className='buttonX' onClick={()=>{deleteTask(index)}}><img src = {'imgs/x.png'} className='edge'/></button>
         <input type = "checkbox" className='checkbox' defaultChecked={task.isReady}/>
         <div className='oneline' key={index}><div className='oneline'>{1+index}.&nbsp;</div>
         <div className='oneline'> {task.name}</div>      

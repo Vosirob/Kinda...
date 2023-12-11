@@ -1,4 +1,4 @@
-const data = [{name: "Cделать практику", isReady: false,}, 
+const data = [{name: "Cделать практику", isReady: false}, 
 {name: "Сдать практику", isReady: false}, 
 {name: "Оформить практику", isReady: false},
 {name: "Сдать задолженности", isReady: true},
