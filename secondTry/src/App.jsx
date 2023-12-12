@@ -7,31 +7,65 @@ import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
-  const [defaultData, setDefaultData] = useState(data);
+  const [defaultData, setDefaultData] = useState(data)
   const [text,setText] = useState('')
+  const [doneTask, setDonetask] = useState([])
+  const [taskInProgress, setTaskInProgress] = useState([])
 
-
-  useEffect(() => {console.log(defaultData)}, [defaultData])
+  useEffect(() => {taskDone(); initTaskInProgress()}, [defaultData])
   const emptyListPhase = "  Список пуст... ";
-  let deleteData;
 
   function setNewList(){
-  setDefaultData([]);
-  console.log('Список очищен...');}
+  setDefaultData([]);}
 
   function emptyList(){
-  if(defaultData.length <1) {return emptyListPhase}
+  if((taskDone.length < 1)&&(taskInProgress < 1)) 
+    {return emptyListPhase}
   }
 
   function addNewTask(){
-      setDefaultData([
-        ...defaultData,
-        {name:text, isReady:false}]);
+    setDefaultData([
+      ...defaultData,
+      {name:text, isReady:false, id:defaultData.length}]);
   }
 
   function deleteTask(id){
-  return(setDefaultData([...defaultData.filter((elem, index) => index !== id)]))
+    return(setDefaultData([
+    ...defaultData.filter((elem) => 
+    elem.id !== id)])
+    )
   };
+
+
+  function taskDone(){
+    setDonetask([
+      ...defaultData.filter((elem) => 
+        elem.isReady === true)
+    ])
+  }
+
+  function initTaskInProgress(){
+    setTaskInProgress([
+      ...defaultData.filter((elem) => 
+        elem.isReady === false)
+    ])
+  }
+
+  function clearDoneTask(){
+    setDonetask([]);
+    console.log('Выполненные задания удалены');}
+
+  function replaceElem(id){
+      setDefaultData([
+        ...defaultData.map((elem) => {
+            if (elem.id === id) {
+                return { ...elem, isReady: !elem.isReady };
+            }
+
+            return elem;
+        }),
+    ])
+    }   
   
   return ( 
     <>
@@ -44,19 +78,30 @@ function App() {
 
       <div className='bluetext'>{emptyList()}</div>
       <div>
-        {defaultData.map((task, index) => {
+        {taskInProgress.map((task, index) => {
         return (
-        <div className='oneline'><button className='buttonX' onClick={()=>{deleteTask(index)}}><img src = {'imgs/x.png'} className='edge'/></button>
-        <input type = "checkbox" className='checkbox' defaultChecked={task.isReady}/>
+        <div className='oneline'><button className='buttonX' onClick={()=>{deleteTask(task.id)}}><img src = {'imgs/x.png'} className='edge'/></button>
+        <input type = "checkbox" className='checkbox' checked={task.isReady} onChange={()=>{replaceElem(task.id);}}/>
         <div className='oneline' key={index}><div className='oneline'>{1+index}.&nbsp;</div>
         <div className='oneline'> {task.name}</div>      
         </div>
-        </div>)
-        })}
-      </div>
+        </div>)})}
+        </div>
 
-      <button className='bluetext default'>Удалить выполненные</button>
+        <div>
+        {doneTask.map((task, index) => {
+        return (
+        <div className='oneline'><button className='buttonX' onClick={()=>{deleteTask(task.id)}}><img src = {'imgs/x.png'} className='edge'/></button>
+        <input type = "checkbox" className='checkbox' checked={task.isReady} onChange={()=>{
+        replaceElem(task.id);}}/>
+        <div className='oneline' key={index}>
+        <div className='oneline'> {task.name}</div>      
+        </div>
+        </div>)})}
+        </div>
 
+      <button className='bluetext default' onClick={() =>{clearDoneTask()}}>Удалить выполненные</button>
+      <button className='bluetext default' onClick={() =>{console.log(doneTask), console.log(taskInProgress)}}>Вывести списки в лог</button>
     </>
 )}
 
